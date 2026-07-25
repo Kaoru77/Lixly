@@ -35,7 +35,6 @@
       <a class="nav-watchlist-btn" href="{{route('watchlist.index')}}">
     <i class="ti ti-bookmark"></i>
     <span class="wl-text">Watchlist</span>
-    @php $wlCount = \App\Models\Wishlist::count(); @endphp
     @if($wlCount > 0)
         <span class="wl-badge">{{ $wlCount }}</span>
     @endif
@@ -44,6 +43,7 @@
   </nav>
 
   <main class="main-content">
+      @include('partials.flash')
       @yield('content')
   </main>
 

@@ -51,13 +51,6 @@
       <i class="ti ti-bookmark"></i> Tambah ke Watchlist
     </button>
   </form>
-
-  @if(session('success'))
-      <p style="color: #2ecc71; font-size: 14px; margin-top: 10px;"><i class="ti ti-check"></i> {{ session('success') }}</p>
-  @endif
-  @if(session('info'))
-      <p style="color: #f1c40f; font-size: 14px; margin-top: 10px;"><i class="ti ti-info-circle"></i> {{ session('info') }}</p>
-  @endif
 </div>
 
       </div>
