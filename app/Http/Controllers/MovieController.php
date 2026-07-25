@@ -9,20 +9,23 @@ class MovieController extends Controller
 {
     public function index(Request $request)
     {
-        // Membuat query dasar mengambil Film
+        $filters = $request->validate([
+            'search' => ['nullable', 'string', 'max:255'],
+            'genre' => ['nullable', 'string', 'max:100'],
+        ]);
+
         $query = Movie::query();
 
-        // Fitur 1: Jika user mengetik kolom pencarian
-        if ($request->has('search') && $request->search != '') {
-            $query->where('title', 'like', '%' . $request->search . '%');
+        $search = trim((string) ($filters['search'] ?? ''));
+        if ($search !== '') {
+            $query->where('title', 'like', '%'.$search.'%');
         }
 
-        // Fitur 2: Jika user memilih filter genre
-        if ($request->has('genre') && $request->genre != '') {
-            $query->where('genre', $request->genre);
+        $genre = trim((string) ($filters['genre'] ?? ''));
+        if ($genre !== '') {
+            $query->where('genre', $genre);
         }
 
-        // Mengambil hasil akhirnya
         $movies = $query->get();
 
         return view('index', compact('movies'));
@@ -31,6 +34,7 @@ class MovieController extends Controller
     public function show(int $id)
     {
         $movie = Movie::findOrFail($id);
+
         return view('detail', compact('movie'));
     }
 }

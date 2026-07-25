@@ -9,12 +9,6 @@
         <a href="{{ route('movie.index') }}" class="clear-btn" style="text-decoration: none;"><i class="ti ti-arrow-left"></i> Kembali Cari Film</a>
       </div>
       
-      @if(session('success'))
-          <div style="background: rgba(46, 204, 113, 0.2); color: #2ecc71; padding: 10px; border-radius: var(--radius); margin-bottom: 20px;">
-              <i class="ti ti-check"></i> {{ session('success') }}
-          </div>
-      @endif
-
       <div class="movie-grid">
          @forelse($movies as $movie)
              <div class="movie-card" style="position: relative;">
