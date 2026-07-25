@@ -9,17 +9,22 @@ class MovieController extends Controller
 {
     public function index(Request $request)
     {
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:255'],
+            'genre' => ['nullable', 'string', 'max:255'],
+        ]);
+
         // Membuat query dasar mengambil Film
         $query = Movie::query();
 
         // Fitur 1: Jika user mengetik kolom pencarian
-        if ($request->has('search') && $request->search != '') {
-            $query->where('title', 'like', '%' . $request->search . '%');
+        if (! empty($validated['search'])) {
+            $query->where('title', 'like', '%' . $validated['search'] . '%');
         }
 
         // Fitur 2: Jika user memilih filter genre
-        if ($request->has('genre') && $request->genre != '') {
-            $query->where('genre', $request->genre);
+        if (! empty($validated['genre'])) {
+            $query->where('genre', $validated['genre']);
         }
 
         // Mengambil hasil akhirnya
