@@ -1,32 +1,18 @@
-@extends('layouts.nav')
+@extends('layouts.app')
 
 @section('title', 'Watchlist Saya — FLIXLY')
 
 @section('content')
     <section class="movie-section" style="margin-top: 20px;">
-      <div class="section-header">
-        <h2><i class="ti ti-bookmark"></i> Film Watchlist Kamu</h2>
-        <a href="{{ route('movie.index') }}" class="clear-btn" style="text-decoration: none;"><i class="ti ti-arrow-left"></i> Kembali Cari Film</a>
-      </div>
-      
-      @if(session('success'))
-          <div style="background: rgba(46, 204, 113, 0.2); color: #2ecc71; padding: 10px; border-radius: var(--radius); margin-bottom: 20px;">
-              <i class="ti ti-check"></i> {{ session('success') }}
-          </div>
-      @endif
+      <x-section-header icon="ti-bookmark" title="Film Watchlist Kamu">
+          <x-clear-link icon="ti-arrow-left">Kembali Cari Film</x-clear-link>
+      </x-section-header>
+
+      <x-flash />
 
       <div class="movie-grid">
          @forelse($movies as $movie)
-             <div class="movie-card" style="position: relative;">
-                 <a href="{{ route('movie.show', $movie->id) }}" style="text-decoration: none; color: inherit;">
-                     <div class="card-poster">
-                         <img src="{{ asset($movie->poster_url) }}" alt="{{ $movie->title }}">
-                         <div class="poster-rating">★ {{ number_format($movie->rating, 1) }}</div>
-                     </div>
-                     <div class="card-title">{{ $movie->title }}</div>
-                     <div class="card-year">{{ $movie->release_date }}</div>
-                 </a>
-
+             <x-movie-card :movie="$movie" style="position: relative;">
                  <form action="{{ route('watchlist.destroy', $movie->id) }}" method="POST" style="margin-top: 10px;">
                      @csrf
                      @method('DELETE')
@@ -34,7 +20,7 @@
                          <i class="ti ti-trash"></i> Hapus
                      </button>
                  </form>
-             </div>
+             </x-movie-card>
          @empty
              <p style="grid-column: 1/-1; text-align: center; color: var(--muted); padding: 5rem 0;">
                  Belum ada film yang kamu tambahkan ke daftar watchlist.

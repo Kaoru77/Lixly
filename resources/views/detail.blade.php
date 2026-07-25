@@ -1,4 +1,4 @@
-@extends('layouts.nav')
+@extends('layouts.app')
 
 @section('title', $movie->title . ' — FLIXLY')
 
@@ -10,14 +10,14 @@
     </div>
 
     <div class="detail-box">
-      
+
       <div class="detail-poster-wrap">
         <img src="{{ asset($movie->poster_url) }}" alt="{{ $movie->title }}">
       </div>
 
       <div class="detail-info">
         <h1 class="detail-title">{{ $movie->title }}</h1>
-        
+
         <div class="detail-meta">
           <span class="meta-rating">
             <i class="ti ti-star-filled"></i> {{ number_format($movie->rating, 1) }}
@@ -25,12 +25,12 @@
           <span class="meta-year">
             <i class="ti ti-calendar"></i> {{ $movie->release_date ?? 'N/A' }}
           </span>
-    <span>
-    <i class="ti ti-user"></i> {{ $movie->director ?? 'N/A' }}
-  </span>
-  <span>
-    <i class="ti ti-clock"></i> {{ $movie->duration ?? 'N/A' }}
-  </span>
+          <span>
+            <i class="ti ti-user"></i> {{ $movie->director ?? 'N/A' }}
+          </span>
+          <span>
+            <i class="ti ti-clock"></i> {{ $movie->duration ?? 'N/A' }}
+          </span>
         </div>
 
         <div class="detail-genres">
@@ -44,21 +44,16 @@
           </p>
         </div>
 
-       <div class="detail-actions" style="margin-top: 24px;">
-  <form action="{{ route('watchlist.store', $movie->id) }}" method="POST">
-    @csrf
-    <button type="submit" class="btn btn-primary" style="cursor: pointer;">
-      <i class="ti ti-bookmark"></i> Tambah ke Watchlist
-    </button>
-  </form>
+        <div class="detail-actions" style="margin-top: 24px;">
+          <form action="{{ route('watchlist.store', $movie->id) }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-primary" style="cursor: pointer;">
+              <i class="ti ti-bookmark"></i> Tambah ke Watchlist
+            </button>
+          </form>
 
-  @if(session('success'))
-      <p style="color: #2ecc71; font-size: 14px; margin-top: 10px;"><i class="ti ti-check"></i> {{ session('success') }}</p>
-  @endif
-  @if(session('info'))
-      <p style="color: #f1c40f; font-size: 14px; margin-top: 10px;"><i class="ti ti-info-circle"></i> {{ session('info') }}</p>
-  @endif
-</div>
+          <x-flash inline />
+        </div>
 
       </div>
     </div>

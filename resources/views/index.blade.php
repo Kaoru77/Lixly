@@ -1,34 +1,28 @@
 @extends('layouts.app')
 @section('title', 'FLIXLY - Katalog Film Lokal')
+
+@section('nav-tools')
+    @include('partials.nav-tools')
+@endsection
+
 @section('content')
     <section class="movie-section">
-      <div class="section-header">
-        @if(request('search'))
-            <h2><i class="ti ti-search"></i> Hasil Pencarian: "{{ request('search') }}"</h2>
-            <a href="{{ route('movie.index') }}" class="clear-btn" style="text-decoration: none;"><i class="ti ti-x"></i> Hapus Pencarian</a>
-        @elseif(request('genre'))
-            <h2><i class="ti ti-filter"></i> Genre: {{ request('genre') }}</h2>
-            <a href="{{ route('movie.index') }}" class="clear-btn" style="text-decoration: none;"><i class="ti ti-x"></i> Hapus Filter</a>
-        @else
-            <h2><i class="ti ti-flame"></i> Daftar-Daftar Movies</h2>
-        @endif
-      </div>
-      
+      @if(request('search'))
+          @php $searchTitle = 'Hasil Pencarian: "'.request('search').'"'; @endphp
+          <x-section-header icon="ti-search" :title="$searchTitle">
+              <x-clear-link>Hapus Pencarian</x-clear-link>
+          </x-section-header>
+      @elseif(request('genre'))
+          <x-section-header icon="ti-filter" :title="'Genre: ' . request('genre')">
+              <x-clear-link>Hapus Filter</x-clear-link>
+          </x-section-header>
+      @else
+          <x-section-header icon="ti-flame" title="Daftar-Daftar Movies" />
+      @endif
+
       <div class="movie-grid">
          @forelse($movies as $movie)
-             <div class="movie-card">
-                 <a href="{{ route('movie.show', $movie->id) }}" style="text-decoration: none; color: inherit;">
-                     
-                     <div class="card-poster">
-                         <img src="{{ asset($movie->poster_url) }}" alt="{{ $movie->title }}">
-                         <div class="poster-rating">★ {{ number_format($movie->rating, 1) }}</div>
-                     </div>
-                     
-                     <div class="card-title">{{ $movie->title }}</div>
-                     <div class="card-year">{{ $movie->release_date }}</div>
-                     
-                 </a>
-             </div>
+             <x-movie-card :movie="$movie" />
          @empty
              <p style="grid-column: 1/-1; text-align: center; color: var(--muted); padding: 3rem 0;">
                  Film tidak ditemukan di database lokal.

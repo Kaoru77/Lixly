@@ -10,50 +10,13 @@
 </head>
 <body>
 
-  <nav class="navbar">
-    <div class="nav-inner">
-      <a class="nav-logo" href="{{ route('movie.index') }}">
-        <i class="ti ti-movie"></i> FLIXLY
-      </a>
-
-      <select id="navGenre" onchange="window.location.href='/?genre=' + this.value">
-        <option value="">Semua Genre</option>
-        <option value="Action">Action</option>
-        <option value="Comedy">Comedy</option>
-        <option value="Drama">Drama</option>
-        <option value="Horror">Horror</option>
-        <option value="Romance">Romance</option>
-        <option value="Sci-Fi">Sci-Fi</option>
-        <option value="Animasi">Animasi</option>
-      </select>
-
-      <form action="{{ route('movie.index') }}" method="GET" class="nav-search" style="display: flex; flex: 1;">
-        <i class="ti ti-search"></i>
-        <input type="text" name="search" id="navSearch" placeholder="Cari film..." value="{{ request('search') }}" />
-      </form>
-
-      <a class="nav-watchlist-btn" href="{{route('watchlist.index')}}">
-    <i class="ti ti-bookmark"></i>
-    <span class="wl-text">Watchlist</span>
-    @php $wlCount = \App\Models\Wishlist::count(); @endphp
-    @if($wlCount > 0)
-        <span class="wl-badge">{{ $wlCount }}</span>
-    @endif
-       </a>
-    </div>
-  </nav>
+  @include('partials.navbar')
 
   <main class="main-content">
       @yield('content')
   </main>
 
-  <footer class="footer">
-    <div class="footer-inner">
-      <span class="footer-logo"><i class="ti ti-movie"></i> FLIXLY</span>
-      <span class="footer-copy">| © 2026 Flixly |</span>
-      <span class="footer-text">Project Pribadi by <strong>Taufiq</strong> | Data film dari Local Database</span>
-    </div>
-  </footer>
+  @include('partials.footer')
 
 </body>
 </html>
